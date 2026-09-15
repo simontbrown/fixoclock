@@ -174,6 +174,13 @@ svg.chart .bvalue { fill: var(--ink); font-size: 16px; font-weight: 900; }
 footer { padding: 40px 0 60px; color: var(--muted); font-size: .9rem; }
 footer .wrap { display: grid; gap: 10px; }
 footer strong { color: var(--ink); }
+footer .legal { margin-top: 6px; font-weight: 700; }
+footer .legal a { color: var(--ink-3); }
+.legal-page h2 { font-size: 1.2rem; margin-top: 22px; }
+.legal-page h2:first-child { margin-top: 0; }
+.legal-page p, .legal-page li { color: var(--muted); font-weight: 600; }
+.legal-page ul { padding-left: 20px; }
+.legal-page li { margin-bottom: 8px; }
 
 /* News pages */
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }

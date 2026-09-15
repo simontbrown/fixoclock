@@ -306,7 +306,7 @@ HEAD = """<!doctype html>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" type="application/rss+xml" title="Fix o'clock – mortgage rates today" href="{site}/news/feed.xml">
-<link rel="stylesheet" href="../styles.css?v=6">
+<link rel="stylesheet" href="../styles.css?v=7">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
@@ -331,6 +331,7 @@ FOOT = """
   <div class="wrap">
     <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
     <div>Market data: live SONIA swap curve. "Typical" deals assume a 75% loan-to-value and are an estimate from published best-buy tables; actual offers differ by lender and borrower.</div>
+    <div class="legal"><a href="../terms.html">Terms of use</a> · <a href="../privacy.html">Privacy</a> · Built by Fix o'clock</div>
   </div>
 </footer>
 </body>
