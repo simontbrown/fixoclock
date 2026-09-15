@@ -4,15 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fix o'clock – is it time to fix your mortgage rate?</title>
-<meta name="description" content="Free, friendly and no advice. See the market-implied path for mortgage rates, live from the SONIA curve, and what it could mean for your remortgage timing.">
-<link rel="stylesheet" href="styles.css?v=7">
+<meta name="description" content="Free, friendly and no advice. See where the market expects mortgage rates to go, updated live, and what it could mean for when you fix.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
     <a class="logo" href="index.html">
-      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f050f8"/><circle cx="20" cy="20" r="14" fill="#180048"/><path d="M20 20V11M20 20l7 4" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#f050f8"/></svg>
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 L43 22 V43 H5 V22 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><circle cx="24" cy="30" r="10.5" fill="#f050f8"/><path d="M24 30 V23" stroke="#180048" stroke-width="3" stroke-linecap="round"/><path d="M24 30 L29.5 33" stroke="#180048" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="30" r="1.8" fill="#180048"/></svg>
       Fix <em>o'clock</em>
     </a>
     <nav>
@@ -76,11 +77,11 @@
   <div class="wrap">
     <span class="eyebrow">The next two years</span>
     <h2>Where interest rates are expected to go</h2>
-    <p style="max-width:680px;color:var(--muted);font-weight:600">This isn't our opinion. It's what the money markets are betting on today, month by month. Fixed mortgage deals are priced off these bets, so when they move, new deals follow.</p>
+    <p style="max-width:680px;color:var(--muted);font-weight:600">This isn't our opinion. It's what the money markets are betting on today, month by month. Banks set fixed deals off these bets, so when they move, new deals follow.</p>
     <div class="card">
       <div class="legend"><span><i style="background:#f050f8"></i>What the market expects</span><span><i style="background:#180048"></i>Today</span></div>
       <div class="chart-wrap" id="c-bankrate"></div>
-      <p class="foot-note">Bank of England rate implied by today's money-market prices. The market is often wrong; this is a snapshot of expectations, not a prediction.</p>
+      <p class="foot-note">Where today's money-market prices suggest the Bank of England rate is going. Markets are often wrong. This is a snapshot of expectations, not a prediction.</p>
       <p style="margin:14px 0 0"><a class="btn btn-ink" href="news/index.html">Read today's homeowner's read →</a></p>
     </div>
   </div>
@@ -92,8 +93,8 @@
     <h2>Three questions. Real numbers. Your call.</h2>
     <div class="grid3">
       <div class="card step"><div class="num">1</div><h3>Tell us about your mortgage</h3><p>Balance, home value, when your deal ends, your current rate. Sixty seconds, nothing stored on our servers.</p></div>
-      <div class="card step"><div class="num">2</div><h3>We map you onto the curve</h3><p>We take today's swap curve, add typical lender pricing for your loan-to-value, and show the range of rates the market implies at your deal end.</p></div>
-      <div class="card step"><div class="num">3</div><h3>You see it in pounds</h3><p>Monthly payments, 2-year versus 5-year cost, what leaving early would cost. Clear charts, no verdicts, you decide.</p></div>
+      <div class="card step"><div class="num">2</div><h3>We check what the market is charging</h3><p>Banks buy the money they lend you. We look at what that costs today, what it's expected to cost when your deal ends, and add the usual lender markup for someone with your deposit.</p></div>
+      <div class="card step"><div class="num">3</div><h3>You see it in pounds</h3><p>What you'd pay each month, 2-year versus 5-year, what leaving early would cost. Clear charts, no verdicts. You decide.</p></div>
     </div>
     <div style="margin-top:28px"><a class="btn btn-ink" href="calculate.html">Run my numbers →</a></div>
   </div>
@@ -109,7 +110,7 @@
       </div>
       <ul>
         <li>Every number comes from public market prices, and we show our working</li>
-        <li>Ranges, not point predictions. The market is often wrong</li>
+        <li>Ranges, not single-number predictions. The market is often wrong</li>
         <li>No products, no lenders, no commission on this page</li>
         <li>Your details stay in your browser</li>
       </ul>
@@ -120,16 +121,16 @@
 <footer>
   <div class="wrap">
     <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
-    <div>Market data: live SONIA swap curve. Typical lender pricing by loan-to-value is an estimate from published best-buy tables and will differ from any actual offer.</div>
+    <div>Market data: live money-market rates. "Typical" deal rates are estimates based on published best-buy tables and the size of your deposit, and will differ from any actual offer.</div>
     <div class="legal"><a href="terms.html">Terms of use</a> · <a href="privacy.html">Privacy</a> · Built by Fix o'clock</div>
   </div>
 </footer>
 
-<script src="curve.js?v=7"></script>
-<script src="data/market.js?v=7"></script>
-<script src="engine.js?v=7"></script>
-<script src="live.js?v=7"></script>
-<script src="charts.js?v=7"></script>
+<script src="curve.js?v=8"></script>
+<script src="data/market.js?v=8"></script>
+<script src="engine.js?v=8"></script>
+<script src="live.js?v=8"></script>
+<script src="charts.js?v=8"></script>
 <script>
 (function () {
   const $ = id => document.getElementById(id);
@@ -175,7 +176,7 @@
     window.Charts.line($("c-bankrate"), {
       series: [{ name: "", points: pts.map(p => ({ x: p.t, y: p.r })), color: "#f050f8" }],
       hlines: [{ y: M.bankRate, label: "Today " + pct(M.bankRate) + "%", color: "#180048" }],
-      xTicks: ticks, yLabel: y => y.toFixed(2) + "%", height: 320, aria: "Market-implied Bank Rate path",
+      xTicks: ticks, yLabel: y => y.toFixed(2) + "%", height: 320, aria: "Where the Bank of England rate is expected to go",
     });
   }
   render();

@@ -252,13 +252,13 @@ def build_day(date, pillars, prev_pillars, week_pillars, month_pillars, path, en
     # --- homeowner's read -----------------------------------------------
     paras = []
     if d2 is None:
-        paras.append(f"A typical 2-year fixed deal is implied at <b>{pct(fix2)}</b> today and a 5-year fix at <b>{pct(fix5)}</b>, based on the rates lenders use to price fixed deals.")
+        paras.append(f"A typical 2-year fixed deal works out at <b>{pct(fix2)}</b> today and a 5-year deal at <b>{pct(fix5)}</b>, based on what banks are paying for the money they lend.")
     else:
         verb, direction = describe_move(d2)
         chg = "unchanged" if abs(d2) < 0.005 else f"{'+' if d2 > 0 else '−'}{abs(d2):.2f}"
         paras.append(
             f"The rates lenders use to price fixed deals <b>{verb}</b> on {weekday}. "
-            f"A typical 2-year fixed deal is now implied at <b>{pct(fix2)}</b> ({chg} on the previous day) and a 5-year fix at <b>{pct(fix5)}</b>.")
+            f"A typical 2-year fixed deal now works out at <b>{pct(fix2)}</b> ({chg} on the previous day) and a 5-year deal at <b>{pct(fix5)}</b>.")
         if abs(dpm2) < 1:
             money = "about the same as the day before"
         else:
@@ -282,7 +282,7 @@ def build_day(date, pillars, prev_pillars, week_pillars, month_pillars, path, en
     if m2 is not None and abs(fix2 - m2) >= 0.02:
         trend.append(f"{'up' if fix2 > m2 else 'down'} {abs(fix2 - m2):.2f}% over the past month")
     if trend:
-        paras.append("Bigger picture, the implied 2-year deal is " + " and ".join(trend) + ".")
+        paras.append("Bigger picture, the typical 2-year deal is " + " and ".join(trend) + ".")
     if d2 is not None and abs(d2) >= 0.06:
         paras.append("Lenders usually take a few days to pass a move like this into the deals they actually offer, so today's best buys may not reflect it yet.")
 
@@ -306,14 +306,15 @@ HEAD = """<!doctype html>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" type="application/rss+xml" title="Fix o'clock – mortgage rates today" href="{site}/news/feed.xml">
-<link rel="stylesheet" href="../styles.css?v=7">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="stylesheet" href="../styles.css?v=8">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
     <a class="logo" href="../index.html">
-      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f050f8"/><circle cx="20" cy="20" r="14" fill="#180048"/><path d="M20 20V11M20 20l7 4" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#f050f8"/></svg>
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 L43 22 V43 H5 V22 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><circle cx="24" cy="30" r="10.5" fill="#f050f8"/><path d="M24 30 V23" stroke="#180048" stroke-width="3" stroke-linecap="round"/><path d="M24 30 L29.5 33" stroke="#180048" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="30" r="1.8" fill="#180048"/></svg>
       Fix <em>o'clock</em>
     </a>
     <nav>
@@ -330,7 +331,7 @@ FOOT = """
 <footer>
   <div class="wrap">
     <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
-    <div>Market data: live SONIA swap curve. "Typical" deals assume a 75% loan-to-value and are an estimate from published best-buy tables; actual offers differ by lender and borrower.</div>
+    <div>Market data: live money-market rates. "Typical" deals mean someone borrowing 75% of their home's value, estimated from published best-buy tables. Actual offers differ by lender and borrower.</div>
     <div class="legal"><a href="../terms.html">Terms of use</a> · <a href="../privacy.html">Privacy</a> · Built by Fix o'clock</div>
   </div>
 </footer>
@@ -348,7 +349,7 @@ def sparkline(points):
     xs = [P + i * (W - 2 * P) / (len(points) - 1) for i in range(len(points))]
     ys = [H - P - (v - lo) / span * (H - 2 * P) for v in points]
     d = "M" + "L".join(f"{x:.1f},{y:.1f}" for x, y in zip(xs, ys))
-    return (f'<svg class="spark" viewBox="0 0 {W} {H}" aria-label="Implied 2-year fix, last {len(points)} trading days">'
+    return (f'<svg class="spark" viewBox="0 0 {W} {H}" aria-label="Typical 2-year deal, last {len(points)} trading days">'
             f'<path d="{d}" fill="none" stroke="#f050f8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
             f'<circle cx="{xs[-1]:.1f}" cy="{ys[-1]:.1f}" r="4" fill="#180048"/></svg>')
 
@@ -366,7 +367,7 @@ def render_day(x, spark_points, evergreen, all_days):
     title = ("Mortgage rates today" if evergreen else f"Mortgage rates on {date_long}") + " – Fix o'clock"
     h1 = "Mortgage rates today" if evergreen else f"Mortgage rates on {date_long}"
     canonical = f"{SITE}/news/" if evergreen else f"{SITE}/news/{x['date']}.html"
-    desc = f"Typical 2-year fix implied at {pct(x['fix2'])}, 5-year at {pct(x['fix5'])}. Bank of England rate {x['br']:.2f}%. Updated {x['ts_label']}."
+    desc = f"Typical 2-year deal {pct(x['fix2'])}, 5-year {pct(x['fix5'])}. Bank of England rate {x['br']:.2f}%. Updated {x['ts_label']}."
     ld = json.dumps({
         "@context": "https://schema.org", "@type": "NewsArticle", "headline": h1,
         "datePublished": x["date"], "dateModified": x["date"], "description": desc,
@@ -384,7 +385,7 @@ def render_day(x, spark_points, evergreen, all_days):
   <div class="narrow">
     <span class="eyebrow">{"Updated " + x["ts_label"] if evergreen else date_long}</span>
     <h1 style="font-size:clamp(1.9rem,4.5vw,3rem)">{h1}</h1>
-    <p>What the money markets imply for fixed mortgage deals, in plain English. Not advice.</p>
+    <p>What today's money markets mean for fixed mortgage deals, in plain English. Not advice.</p>
   </div>
 </section>
 <main class="narrow lift">
@@ -395,13 +396,13 @@ def render_day(x, spark_points, evergreen, all_days):
       <div class="stat"><div class="n">{gbp(x["pm2"])}</div><div class="l">A month on £200k over 25 years, 2-year deal</div><div class="d">{("about the same" if x["dpm2"] is None or abs(x["dpm2"]) < 1 else (("+" if x["dpm2"] > 0 else "−") + gbp(x["dpm2"]))) } vs day before</div></div>
       <div class="stat"><div class="n">{x["br"]:.2f}%</div><div class="l">Bank of England rate</div><div class="d">{"Next decision " + x["next_mpc"] if x["next_mpc"] else ""}</div></div>
     </div>
-    <div class="spark-row">{sparkline(spark_points)}<span class="muted">Implied 2-year deal, last {len(spark_points)} trading days</span></div>
+    <div class="spark-row">{sparkline(spark_points)}<span class="muted">Typical 2-year deal, last {len(spark_points)} trading days</span></div>
   </section>
 
   <section class="card">
     <h2>Homeowner's read</h2>
     <div class="read">{paras}</div>
-    <p class="foot-note">Generated from market prices, not opinion. "Typical" assumes a 75% loan-to-value. What the market implies today is not a prediction and not advice.</p>
+    <p class="foot-note">Generated from market prices, not opinion. "Typical" means someone borrowing 75% of their home's value. What the market expects today is not a prediction and not advice.</p>
     <a class="btn btn-pink" href="../calculate.html">See what this means for my mortgage →</a>
   </section>
 
@@ -423,11 +424,11 @@ def render_feed(days):
         link = f"{SITE}/news/{d['date']}.html"
         text = html.escape(re.sub(r"<[^>]+>", "", " ".join(d["paras"])))
         pub = dt.datetime.combine(d["day"], dt.time(18, 0)).strftime("%a, %d %b %Y %H:%M:%S +0000")
-        items.append(f"<item><title>Mortgage rates on {fmt(d['day'], '%-d %B %Y')}: 2-year fix implied at {pct(d['fix2'])}</title>"
+        items.append(f"<item><title>Mortgage rates on {fmt(d['day'], '%-d %B %Y')}: 2-year deal at {pct(d['fix2'])}</title>"
                      f"<link>{link}</link><guid>{link}</guid><pubDate>{pub}</pubDate><description>{text}</description></item>")
     return ('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel>'
             f"<title>Fix o'clock – mortgage rates today</title><link>{SITE}/news/</link>"
-            "<description>What the money markets imply for fixed mortgage deals, in plain English. Not advice.</description>"
+            "<description>What today's money markets mean for fixed mortgage deals, in plain English. Not advice.</description>"
             + "".join(items) + "</channel></rss>")
 
 

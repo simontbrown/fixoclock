@@ -5,14 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Which deal? – Fix o'clock</title>
 <meta name="description" content="2-year or 5-year? Leave early or stay? We add up every payment and fee over five years and tell you which costs less. No forecasts, no advice.">
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
     <a class="logo" href="index.html">
-      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f050f8"/><circle cx="20" cy="20" r="14" fill="#180048"/><path d="M20 20V11M20 20l7 4" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#f050f8"/></svg>
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 L43 22 V43 H5 V22 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><circle cx="24" cy="30" r="10.5" fill="#f050f8"/><path d="M24 30 V23" stroke="#180048" stroke-width="3" stroke-linecap="round"/><path d="M24 30 L29.5 33" stroke="#180048" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="30" r="1.8" fill="#180048"/></svg>
       Fix <em>o'clock</em>
     </a>
     <nav>
@@ -109,7 +110,7 @@
       <h2>How this works</h2>
       <div class="guide">
         <details><summary>What are you actually adding up?</summary><p>Every monthly payment for five years, any fees, and what you'd still owe at the end. Money you pay later is worth a bit less than money you pay now, so we shrink later payments accordingly. The route with the lower total costs less. The headline rate on its own tells you almost nothing.</p></details>
-        <details><summary>Where do the future rates come from?</summary><p>A 2-year deal means you'll need another deal in two years. We don't guess what that will cost. We use the price the money markets are quoting today for borrowing in two years' time, plus the usual lender margin. That's the market's own view, not ours, and it can be wrong. The slider shows how wrong it would have to be to change the answer.</p></details>
+        <details><summary>Where do the future rates come from?</summary><p>A 2-year deal means you'll need another deal in two years. We don't guess what that will cost. We use the price the money markets are quoting today for borrowing in two years' time, plus the usual lender markup. That's the market's own view, not ours, and it can be wrong. The slider shows how wrong it would have to be to change the answer.</p></details>
         <details><summary>What's the "lock early" thing?</summary><p>Most lenders let you arrange your next deal up to six months before your current one ends, and switch to a cheaper one if it appears before you start. It's free, and on Bank of England data since 2009 it's been worth about a quarter of a percent on the rate. We count 0.20% of that on future deals, never on one you already hold.</p></details>
         <details><summary>Is this advice?</summary><p>No. It's arithmetic on the numbers you typed in and today's market prices. It doesn't know your circumstances. A regulated mortgage adviser does.</p></details>
         <details><summary>Show the working</summary><div id="ledger"></div></details>
@@ -121,16 +122,16 @@
 <footer>
   <div class="wrap">
     <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
-    <div>Market rates: live SONIA swap curve. Future deal rates are read off that curve plus a stated lender margin, never forecast. The lock-early option is credited at its measured average value on Bank of England data 2009–2026. Cost model by the Fix o'clock treasury team.</div>
+    <div>Market rates: live money-market prices. Future deal rates are what those prices imply plus the usual lender markup, never a forecast. The lock-early option is counted at its average value on Bank of England data since 2009.</div>
     <div class="legal"><a href="terms.html">Terms of use</a> · <a href="privacy.html">Privacy</a> · Built by Fix o'clock</div>
   </div>
 </footer>
 
-<script src="curve.js?v=7"></script>
-<script src="data/market.js?v=7"></script>
-<script src="engine.js?v=7"></script>
-<script src="live.js?v=7"></script>
-<script src="position-engine.js?v=7"></script>
-<script src="position.js?v=7"></script>
+<script src="curve.js?v=8"></script>
+<script src="data/market.js?v=8"></script>
+<script src="engine.js?v=8"></script>
+<script src="live.js?v=8"></script>
+<script src="position-engine.js?v=8"></script>
+<script src="position.js?v=8"></script>
 </body>
 </html>

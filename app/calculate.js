@@ -25,7 +25,7 @@
 
   function ltvNote() {
     const b = parseFloat($("balance").value), h = parseFloat($("value").value);
-    if (b > 0 && h > 0) $("ltv-note").textContent = "That's a loan-to-value of about " + Math.round(b / h * 100) + "%.";
+    if (b > 0 && h > 0) $("ltv-note").textContent = "So you're borrowing about " + Math.round(b / h * 100) + "% of your home's value.";
   }
 
   function render() {
@@ -35,37 +35,37 @@
     const R = E.calculate(inp);
     const M = window.MARKET, r = R.rates, P = R.payments, T = R.twoFive;
     $("results").classList.remove("hidden");
-    $("live-note").textContent = M.source === "live" ? "Live market curve, " + M.asOfLabel + "." : "Using a saved curve from " + M.asOfLabel + ".";
-    $("ltv-chip").textContent = Math.round(R.ltv) + "% LTV";
+    $("live-note").textContent = M.source === "live" ? "Live market rates, " + M.asOfLabel + "." : "Using saved market rates from " + M.asOfLabel + ".";
+    $("ltv-chip").textContent = "borrowing " + Math.round(R.ltv) + "% of your home's value";
 
     // ---- The one number ----
     if (r.ended) {
       $("one-n").textContent = gbp(P.svr - P.current) + " a month";
       $("one-k").textContent = "is roughly what a typical variable rate costs on top of your old deal.";
-      $("one-s").textContent = `Your old payment was about ${gbp(P.current)}. A typical 2-year fix today for your loan-to-value would be about ${gbp(P.fix2)}, a 5-year fix about ${gbp(P.fix5)}.`;
+      $("one-s").textContent = `Your old payment was about ${gbp(P.current)}. A typical 2-year deal today for someone with your deposit would be about ${gbp(P.fix2)}, a 5-year deal about ${gbp(P.fix5)}.`;
     } else {
       $("one-n").textContent = "about " + gbp(r.payEnd2) + " a month";
-      $("one-k").textContent = `is what the market implies for a typical 2-year fix when your deal ends, against ${gbp(P.current)} now.`;
-      $("one-s").textContent = `Middle half of outcomes: ${gbp(r.payEnd2lo)} to ${gbp(r.payEnd2hi)}. Doing nothing and rolling onto a typical variable rate would be about ${gbp(P.svr)}.`;
+      $("one-k").textContent = `is what the market expects a typical 2-year deal to cost when yours ends, against ${gbp(P.current)} now.`;
+      $("one-s").textContent = `Most likely somewhere between ${gbp(r.payEnd2lo)} and ${gbp(r.payEnd2hi)}. Doing nothing and rolling onto your lender's standard variable rate would be about ${gbp(P.svr)}.`;
     }
 
     // ---- Rates ahead ----
     const endLabel = E.fmtDate(inp.dealEnd);
     let plain;
     if (r.ended) {
-      plain = `Your deal ended on <b>${endLabel}</b>, so you may already be on your lender's variable rate. Today a typical 2-year fix for your loan-to-value is <b>${pct(r.now2)}</b> and a 5-year fix is <b>${pct(r.now5)}</b>.`;
+      plain = `Your deal ended on <b>${endLabel}</b>, so you may already be on your lender's variable rate. Today a typical 2-year deal for someone with your deposit is <b>${pct(r.now2)}</b> and a 5-year deal is <b>${pct(r.now5)}</b>.`;
     } else if (r.inWindow) {
-      plain = `Your deal ends on <b>${endLabel}</b>, which is inside the six-month window most lenders allow for reserving a new rate. Today's typical 2-year fix for your loan-to-value is <b>${pct(r.now2)}</b>. By your deal end the market implies about <b>${pct(r.end2)}</b>, with the middle half of outcomes between ${pct(r.end2lo)} and ${pct(r.end2hi)}.`;
+      plain = `Your deal ends on <b>${endLabel}</b>, which is inside the six-month window most lenders allow for reserving a new rate. Today's typical 2-year deal for someone with your deposit is <b>${pct(r.now2)}</b>. By the time your deal ends, the market expects about <b>${pct(r.end2)}</b>, most likely somewhere between ${pct(r.end2lo)} and ${pct(r.end2hi)}.`;
     } else {
-      plain = `Your deal ends on <b>${endLabel}</b>. Most lenders let you reserve a new rate from <b>${E.fmtDate(r.windowOpens)}</b>. Today's typical 2-year fix for your loan-to-value is <b>${pct(r.now2)}</b>; the market implies about <b>${pct(r.end2)}</b> at your deal end, with the middle half of outcomes between ${pct(r.end2lo)} and ${pct(r.end2hi)}.`;
+      plain = `Your deal ends on <b>${endLabel}</b>. Most lenders let you reserve a new rate from <b>${E.fmtDate(r.windowOpens)}</b>. Today's typical 2-year deal for someone with your deposit is <b>${pct(r.now2)}</b>. By the time your deal ends, the market expects about <b>${pct(r.end2)}</b>, most likely somewhere between ${pct(r.end2lo)} and ${pct(r.end2hi)}.`;
     }
     $("p-rates").innerHTML = plain;
     $("v-now2").textContent = pct(r.now2);
     $("v-end2").textContent = r.ended ? pct(r.now2) : pct(r.end2);
-    $("k-end2").textContent = r.ended ? "Typical 5-year fix today: " + pct(r.now5) : "Market-implied 2-year fix at your deal end";
+    $("k-end2").textContent = r.ended ? "Typical 5-year deal today: " + pct(r.now5) : "What the market expects a 2-year deal to cost when yours ends";
     $("v-p2").textContent = r.ended ? "–" : pc(r.pHigher2);
     $("n-rates").textContent = r.ended ? "" :
-      `In monthly terms, the implied rate at your deal end works out at about ${gbp(r.payEnd2)} a month against ${gbp(r.payNow2)} on today's rate (middle-half range ${gbp(r.payEnd2lo)} to ${gbp(r.payEnd2hi)}). Many lenders let a reserved rate be swapped for a lower one before completion; check yours.`;
+      `In pounds: the rate the market expects when your deal ends works out at about ${gbp(r.payEnd2)} a month, against ${gbp(r.payNow2)} on today's rate, most likely between ${gbp(r.payEnd2lo)} and ${gbp(r.payEnd2hi)}. Many lenders let you reserve a deal early and swap to a cheaper one if rates fall before it starts. Check yours.`;
     const ticks = r.path.filter(p => p.t % (r.H > 12 ? 6 : 2) === 0 || p.t === r.H).map(p => ({ x: p.t, label: E.fmtMonth(p.date) }));
     const vlines = (!r.ended && r.tEnd <= r.H) ? [{ x: r.tEnd, label: "Deal ends" }] : [];
     C.line($("c-rates"), {
@@ -79,25 +79,25 @@
 
     // ---- Monthly payment ----
     const doNothing = P.svr - P.current;
-    $("p-pay").innerHTML = `You pay about <b>${gbp(P.current)}</b> a month now. If nothing changed at deal end and you moved to a typical variable rate of ${pct(M.svr)}, that would be about <b>${gbp(P.svr)}</b>, ${gbp(doNothing)} ${doNothing >= 0 ? "more" : "less"}. A typical 2-year fix today would be about <b>${gbp(P.fix2)}</b>; a 5-year fix about <b>${gbp(P.fix5)}</b>.`;
+    $("p-pay").innerHTML = `You pay about <b>${gbp(P.current)}</b> a month now. If nothing changed at deal end and you moved to a typical variable rate of ${pct(M.svr)}, that would be about <b>${gbp(P.svr)}</b>, ${gbp(doNothing)} ${doNothing >= 0 ? "more" : "less"}. A typical 2-year deal today would be about <b>${gbp(P.fix2)}</b>; a 5-year deal about <b>${gbp(P.fix5)}</b>.`;
     C.bars($("c-pay"), {
       fmt: gbp, aria: "Monthly payments compared",
       items: [
         { label: "Now", note: pct(inp.currentRate), value: P.current, color: LILAC },
-        { label: "Do nothing (SVR)", note: pct(M.svr), value: P.svr, color: SUN },
-        { label: "Typical 2-yr fix", note: pct(r.now2), value: P.fix2, color: PINK },
-        { label: "Typical 5-yr fix", note: pct(r.now5), value: P.fix5, color: INK },
+        { label: "Do nothing", note: pct(M.svr) + " variable", value: P.svr, color: SUN },
+        { label: "Typical 2-year deal", note: pct(r.now2), value: P.fix2, color: PINK },
+        { label: "Typical 5-year deal", note: pct(r.now5), value: P.fix5, color: INK },
       ],
     });
 
     // ---- 2 vs 5 ----
     const diff = T.cost23 - T.cost5;
-    $("p-25").innerHTML = `Over five years, one 5-year fix at ${pct(T.now5)} would cost about <b>${gbp(T.cost5)}</b> in interest and fees. A 2-year fix at ${pct(T.now2)} followed by a 3-year fix at the market-implied ${pct(T.r3at24)} would cost about <b>${gbp(T.cost23)}</b>, so the two routes are <b>${gbp(diff)} apart</b> (the ${diff > 0 ? "5-year" : "2-then-3"} route is lower on today's curve). The 2-then-3 route would come out cheaper if the 3-year rate in two years is below <b>${pct(T.breakeven3)}</b>.`;
+    $("p-25").innerHTML = `Over five years, one 5-year deal at ${pct(T.now5)} would cost about <b>${gbp(T.cost5)}</b> in interest and fees. A 2-year deal at ${pct(T.now2)} followed by a 3-year deal at the ${pct(T.r3at24)} the market currently expects would cost about <b>${gbp(T.cost23)}</b>. So the two routes are <b>${gbp(diff)} apart</b>, with the ${diff > 0 ? "5-year" : "2-year-then-3-year"} route cheaper on today's prices. The 2-year-then-3-year route would come out cheaper if the 3-year rate in two years' time is below <b>${pct(T.breakeven3)}</b>.`;
     C.bars($("c-25"), {
       fmt: gbp, aria: "Five-year cost compared",
       items: [
-        { label: "One 5-yr fix", note: "1 fee", value: T.cost5, color: INK },
-        { label: "2-yr then 3-yr fix", note: "2 fees", value: T.cost23, color: PINK },
+        { label: "One 5-year deal", note: "1 fee", value: T.cost5, color: INK },
+        { label: "2-year then 3-year", note: "2 fees", value: T.cost23, color: PINK },
       ],
     });
     $("v-be3").textContent = pct(T.breakeven3);
@@ -111,8 +111,8 @@
       ercSec.classList.remove("hidden");
       const beTxt = isFinite(x.breakevenMonths) ? Math.ceil(x.breakevenMonths) + " months" : "never";
       $("p-erc").innerHTML = x.monthlySaving > 0
-        ? `Leaving now would cost about <b>${gbp(x.ercCost)}</b> in early repayment charge plus a ${gbp(x.fee)} fee. Moving from ${pct(inp.currentRate)} to a typical 5-year fix at ${pct(x.newRate)} would lower your payment by about <b>${gbp(x.monthlySaving)} a month</b>, so the exit cost is recovered in about <b>${beTxt}</b>. You have <b>${x.mLeft} months</b> left, so over the rest of your deal the net effect is <b>${gbpSigned(x.net)}</b>.`
-        : `Leaving now would cost about <b>${gbp(x.ercCost)}</b> in early repayment charge plus a ${gbp(x.fee)} fee, and a typical 5-year fix today (${pct(x.newRate)}) is higher than your current ${pct(inp.currentRate)}, so your monthly payment would rise by about <b>${gbp(-x.monthlySaving)}</b>. Over the rest of your deal the net effect is <b>${gbpSigned(x.net)}</b>.`;
+        ? `Leaving now would cost about <b>${gbp(x.ercCost)}</b> in early repayment charge plus a ${gbp(x.fee)} fee. Moving from ${pct(inp.currentRate)} to a typical 5-year deal at ${pct(x.newRate)} would lower your payment by about <b>${gbp(x.monthlySaving)} a month</b>, so the exit cost is recovered in about <b>${beTxt}</b>. You have <b>${x.mLeft} months</b> left, so over the rest of your deal the net effect is <b>${gbpSigned(x.net)}</b>.`
+        : `Leaving now would cost about <b>${gbp(x.ercCost)}</b> in early repayment charge plus a ${gbp(x.fee)} fee, and a typical 5-year deal today (${pct(x.newRate)}) is higher than your current ${pct(inp.currentRate)}, so your monthly payment would rise by about <b>${gbp(-x.monthlySaving)}</b>. Over the rest of your deal the net effect is <b>${gbpSigned(x.net)}</b>.`;
       C.bars($("c-erc"), {
         fmt: gbp, aria: "Cost of leaving early compared",
         items: [

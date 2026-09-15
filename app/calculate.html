@@ -4,14 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Run my numbers – Fix o'clock</title>
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
     <a class="logo" href="index.html">
-      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f050f8"/><circle cx="20" cy="20" r="14" fill="#180048"/><path d="M20 20V11M20 20l7 4" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#f050f8"/></svg>
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 L43 22 V43 H5 V22 Z" fill="#fff" stroke="#fff" stroke-width="4" stroke-linejoin="round"/><circle cx="24" cy="30" r="10.5" fill="#f050f8"/><path d="M24 30 V23" stroke="#180048" stroke-width="3" stroke-linecap="round"/><path d="M24 30 L29.5 33" stroke="#180048" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="30" r="1.8" fill="#180048"/></svg>
       Fix <em>o'clock</em>
     </a>
     <nav>
@@ -51,7 +52,7 @@
         <div class="field has-suf"><input id="currentRate" type="number" inputmode="decimal" min="0" max="15" step="0.01" value="1.89" required><span class="suf">%</span></div>
       </div>
       <div>
-        <label for="termYears">Years left on the mortgage <span class="hint">The whole term, not the deal</span></label>
+        <label for="termYears">Years left on the mortgage <span class="hint">Until it's paid off, not just this deal</span></label>
         <div class="field has-suf"><input id="termYears" type="number" inputmode="numeric" min="1" max="40" step="1" value="22" required><span class="suf">yrs</span></div>
       </div>
       <div>
@@ -85,17 +86,17 @@
       <div class="big-s" id="one-s"></div>
     </section>
 
-    <div class="notice" style="margin-top:24px"><span class="i">i</span><span>These are market-implied numbers, not predictions and not advice. Real offers depend on your lender, credit history and the day you apply. <span id="live-note"></span></span></div>
+    <div class="notice" style="margin-top:24px"><span class="i">i</span><span>These are what the market expects today, not predictions and not advice. Real offers depend on your lender, credit history and the day you apply. <span id="live-note"></span></span></div>
 
     <section class="card result" id="r-rates">
       <h2>Rates ahead <span class="chip" id="ltv-chip"></span></h2>
       <div class="plain" id="p-rates"></div>
-      <div class="legend"><span><i style="background:#f050f8"></i>Typical 2-year fix</span><span><i style="background:#180048"></i>Typical 5-year fix</span><span><i style="background:#f050f8;opacity:.25"></i>Middle 50% of outcomes</span></div>
+      <div class="legend"><span><i style="background:#f050f8"></i>Typical 2-year fix</span><span><i style="background:#180048"></i>Typical 5-year fix</span><span><i style="background:#f050f8;opacity:.25"></i>Where it will most likely land</span></div>
       <div class="chart-wrap" id="c-rates"></div>
       <div class="readouts">
-        <div class="readout"><div class="v" id="v-now2"></div><div class="k">Typical 2-year fix today for your LTV</div></div>
-        <div class="readout"><div class="v" id="v-end2"></div><div class="k" id="k-end2">Market-implied 2-year fix at your deal end</div></div>
-        <div class="readout"><div class="v" id="v-p2"></div><div class="k">Chance the 2-year rate is higher then than now</div></div>
+        <div class="readout"><div class="v" id="v-now2"></div><div class="k">Typical 2-year deal today, for your deposit</div></div>
+        <div class="readout"><div class="v" id="v-end2"></div><div class="k" id="k-end2">What the market expects a 2-year deal to cost when yours ends</div></div>
+        <div class="readout"><div class="v" id="v-p2"></div><div class="k">Chance it's higher then than it is now</div></div>
       </div>
       <p class="foot-note" id="n-rates"></p>
     </section>
@@ -104,7 +105,7 @@
       <h2>Your monthly payment</h2>
       <div class="plain" id="p-pay"></div>
       <div class="chart-wrap" id="c-pay"></div>
-      <p class="foot-note">Repayment mortgage, same remaining term for each. "Do nothing" uses a typical standard variable rate; your lender's may differ.</p>
+      <p class="foot-note">Repayment mortgage, same years left for each. "Do nothing" means rolling onto your lender's standard variable rate, the expensive one you land on if you don't arrange a new deal. We've used a typical one.</p>
     </section>
 
     <section class="card result" id="r-25">
@@ -112,11 +113,11 @@
       <div class="plain" id="p-25"></div>
       <div class="chart-wrap" id="c-25"></div>
       <div class="readouts">
-        <div class="readout"><div class="v" id="v-be3"></div><div class="k">Break-even 3-year rate in two years' time</div></div>
-        <div class="readout"><div class="v" id="v-r3"></div><div class="k">Market-implied 3-year rate then (middle 50%)</div></div>
-        <div class="readout"><div class="v" id="v-p23"></div><div class="k">Chance the 2-then-3 route ends up cheaper</div></div>
+        <div class="readout"><div class="v" id="v-be3"></div><div class="k">The 3-year rate in two years' time that would make both routes cost the same</div></div>
+        <div class="readout"><div class="v" id="v-r3"></div><div class="k">What the market expects that rate to be (most likely range)</div></div>
+        <div class="readout"><div class="v" id="v-p23"></div><div class="k">Chance the 2-year-then-3-year route ends up cheaper</div></div>
       </div>
-      <p class="foot-note">Cost is interest plus product fees over five years, comparing one 5-year fix against a 2-year fix followed by a 3-year fix at the rate the market currently implies. Fees and rates in the second period are assumptions.</p>
+      <p class="foot-note">Cost means all the interest plus any fees over five years. One 5-year deal, against a 2-year deal followed by a 3-year deal at the rate the market currently expects. The second deal's rate and fee are assumptions.</p>
     </section>
 
     <section class="card result" id="r-erc">
@@ -128,7 +129,7 @@
         <div class="readout"><div class="v" id="v-ercleft"></div><div class="k">Months left on your current deal</div></div>
         <div class="readout"><div class="v" id="v-ercnet"></div><div class="k">Net effect over the rest of your deal</div></div>
       </div>
-      <p class="foot-note">Compares staying on your current rate until the deal ends with paying the charge and moving to a typical 5-year fix today. It ignores what happens after your deal would have ended, which cuts both ways.</p>
+      <p class="foot-note">Compares staying on your current rate until the deal ends with paying the charge and moving to a typical 5-year deal today. It stops at the day your deal would have ended, which cuts both ways.</p>
     </section>
 
     <section class="card remind">
@@ -145,16 +146,16 @@
 <footer>
   <div class="wrap">
     <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
-    <div>Market data: live SONIA swap curve. Typical lender pricing by loan-to-value is an estimate from published best-buy tables and will differ from any actual offer.</div>
+    <div>Market data: live money-market rates. "Typical" deal rates are estimates based on published best-buy tables and the size of your deposit, and will differ from any actual offer.</div>
     <div class="legal"><a href="terms.html">Terms of use</a> · <a href="privacy.html">Privacy</a> · Built by Fix o'clock</div>
   </div>
 </footer>
 
-<script src="curve.js?v=7"></script>
-<script src="data/market.js?v=7"></script>
-<script src="engine.js?v=7"></script>
-<script src="live.js?v=7"></script>
-<script src="charts.js?v=7"></script>
-<script src="calculate.js?v=7"></script>
+<script src="curve.js?v=8"></script>
+<script src="data/market.js?v=8"></script>
+<script src="engine.js?v=8"></script>
+<script src="live.js?v=8"></script>
+<script src="charts.js?v=8"></script>
+<script src="calculate.js?v=8"></script>
 </body>
 </html>

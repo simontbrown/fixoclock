@@ -48,7 +48,7 @@
   function fillOffers(force) {
     if (force || !touched.has("o2")) set("o2", FX.impliedFix(0, 2, ltv).toFixed(2));
     if (force || !touched.has("o5")) set("o5", FX.impliedFix(0, 5, ltv).toFixed(2));
-    $("typical-note").textContent = `We've filled in today's typical rates for a ${Math.round(ltv)}% loan-to-value. Replace them with the rates you've actually been offered.`;
+    $("typical-note").textContent = `We've filled in today's typical rates for someone borrowing ${Math.round(ltv)}% of their home's value. Replace them with the rates you've actually been offered.`;
   }
   const save = () => { try { const s = { mode, ltv, touched: [...touched] }; ids.forEach(k => s[k] = $(k).value); localStorage.setItem(KEY, JSON.stringify(s)); } catch (_) {} };
   const load = () => { try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (!s) return false; ids.forEach(k => { if (k in s) set(k, s[k]); }); (s.touched || []).forEach(k => touched.add(k)); if (s.ltv) ltv = s.ltv; if (s.mode) mode = s.mode; return true; } catch (_) { return false; } };
@@ -75,7 +75,7 @@
 
   const ledger = (title, res, win) => {
     let h = `<table class="ledger"><thead><tr><th>${title}</th><th>Rate</th><th>Months</th><th>Monthly</th><th>Fee</th></tr></thead><tbody>`;
-    res.legs.forEach((l, i) => { if (i >= res.pays.length) return; const c = (l.fee || 0) + (l.upfront || 0); h += `<tr><td>${l.label || ""}${l.fwd ? ' <span class="muted">(market price today)</span>' : ""}</td><td>${pct(l.rate)}</td><td>${l.months}</td><td>${gbp(res.pays[i])}</td><td>${c ? gbp(c) : "—"}</td></tr>`; });
+    res.legs.forEach((l, i) => { if (i >= res.pays.length) return; const c = (l.fee || 0) + (l.upfront || 0); h += `<tr><td>${l.label || ""}${l.fwd ? ' <span class="muted">(what the market expects today)</span>' : ""}</td><td>${pct(l.rate)}</td><td>${l.months}</td><td>${gbp(res.pays[i])}</td><td>${c ? gbp(c) : "—"}</td></tr>`; });
     h += `<tr><td>All the payments, in today's money</td><td></td><td></td><td colspan="2">${gbp(res.pvPayments)}</td></tr>`;
     h += `<tr><td>Fees paid upfront, in today's money</td><td></td><td></td><td colspan="2">${gbp(res.pvUpfront)}</td></tr>`;
     h += `<tr><td>Still owed at the end, in today's money</td><td></td><td></td><td colspan="2">${gbp(res.pvTerminal)}</td></tr>`;
@@ -94,8 +94,8 @@
     const fwd2 = E.forwardMortgageRate(m, 2, 2), beRate = fwd2 + (c.breakevenBp || 0) / 100;
     $("lead").innerHTML = `The <b>${fiveWins ? "5-year" : "2-year"} deal</b> costs <b>${gbp(adv)} less</b> over five years.`;
     $("sub").innerHTML = fiveWins
-      ? `That's because a 2-year deal means taking another deal in ${monthLabel(24)}, and the market currently prices that at about ${pct(fwd2)}.`
-      : `That's even after taking another deal in ${monthLabel(24)} at the ${pct(fwd2)} the market currently prices.`;
+      ? `That's because a 2-year deal means taking another deal in ${monthLabel(24)}, and the market currently expects that to cost about ${pct(fwd2)}.`
+      : `That's even after taking another deal in ${monthLabel(24)} at the ${pct(fwd2)} the market currently expects.`;
     $("sub2").innerHTML = c.breakevenBp == null ? "" : fiveWins
       ? `The 2-year deal would only win if rates in ${monthLabel(24)} come in <b>${ppt(c.breakevenBp)} lower</b> than that, at ${pct(beRate)} or below. It's about ${gbp(-c.perMonth)} a month either way.`
       : `The 5-year deal would only win if rates in ${monthLabel(24)} come in <b>${ppt(c.breakevenBp)} higher</b> than that. It's about ${gbp(c.perMonth)} a month either way.`;
