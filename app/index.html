@@ -64,10 +64,10 @@
 
 <section class="market wrap" id="market">
   <div class="card">
-    <div class="stat"><div class="n" id="m-bank">–<small>%</small></div><div class="l">Bank Rate today</div><div class="d" id="m-mpc">Next decision: –</div></div>
-    <div class="stat"><div class="n" id="m-2y">–<small>%</small></div><div class="l">2-year swap rate</div><div class="d" id="m-2y-d"></div></div>
-    <div class="stat"><div class="n" id="m-5y">–<small>%</small></div><div class="l">5-year swap rate</div><div class="d" id="m-5y-d"></div></div>
-    <div class="stat"><div class="n" id="m-peak">–<small>%</small></div><div class="l">Where the market sees Bank Rate peaking</div><div class="d" id="m-peak-d"></div></div>
+    <div class="stat"><div class="n" id="m-bank">–<small>%</small></div><div class="l">Bank of England interest rate</div><div class="d" id="m-mpc"></div></div>
+    <div class="stat"><div class="n" id="m-fix2">–<small>%</small></div><div class="l">Typical 2-year fixed deal today</div><div class="d" id="m-fix5"></div></div>
+    <div class="stat"><div class="n n-text" id="m-dir">–</div><div class="l">Fixed rates over the next 6 months</div><div class="d" id="m-dir-d"></div></div>
+    <div class="stat"><div class="n" id="m-peak">–<small>%</small></div><div class="l">Where rates are expected to top out</div><div class="d" id="m-peak-d"></div></div>
   </div>
   <p class="live" id="m-live" style="margin:10px 6px 0"><span class="dot"></span><span>Connecting to live market data…</span></p>
 </section>
@@ -75,12 +75,12 @@
 <section class="block">
   <div class="wrap">
     <span class="eyebrow">The next two years</span>
-    <h2>Where the market thinks Bank Rate is heading</h2>
-    <p style="max-width:680px;color:var(--muted);font-weight:600">This isn't our opinion. It's what today's SONIA swap prices imply, month by month. Fixed mortgage rates are priced off this curve, so when it moves, new deals follow.</p>
+    <h2>Where interest rates are expected to go</h2>
+    <p style="max-width:680px;color:var(--muted);font-weight:600">This isn't our opinion. It's what the money markets are betting on today, month by month. Fixed mortgage deals are priced off these bets, so when they move, new deals follow.</p>
     <div class="card">
-      <div class="legend"><span><i style="background:#f050f8"></i>Market-implied Bank Rate</span><span><i style="background:#180048"></i>Today</span></div>
+      <div class="legend"><span><i style="background:#f050f8"></i>What the market expects</span><span><i style="background:#180048"></i>Today</span></div>
       <div class="chart-wrap" id="c-bankrate"></div>
-      <p class="foot-note">Source: live SONIA OIS swap curve, simple money-market bootstrap. The market is often wrong; this is a snapshot of expectations, not a prediction.</p>
+      <p class="foot-note">Bank of England rate implied by today's money-market prices. The market is often wrong; this is a snapshot of expectations, not a prediction.</p>
     </div>
   </div>
 </section>
@@ -140,15 +140,31 @@
   }
   function render() {
     const M = window.MARKET, prev = M.previousPillars || {};
+    const E = window.Engine, LTV = 75;
+    // 1. Bank of England rate + what markets expect at the next decision
     $("m-bank").innerHTML = pct(M.bankRate) + "<small>%</small>";
     const mpc = window.Live.nextMpc();
-    $("m-mpc").textContent = mpc ? "Next decision: " + new Date(mpc).toLocaleDateString("en-GB", { day: "numeric", month: "long" }) : "";
-    $("m-2y").innerHTML = pct(M.swap2y) + "<small>%</small>"; $("m-2y-d").innerHTML = delta(M.swap2y, prev.OIS_2Y);
-    $("m-5y").innerHTML = pct(M.swap5y) + "<small>%</small>"; $("m-5y-d").innerHTML = delta(M.swap5y, prev.OIS_5Y);
-    const path = window.Engine.bankRatePath(36);
+    // Pricing for the next meeting: the 1-month swap vs overnight if the meeting is
+    // within a month, otherwise the forward for the month after it.
+    const daysToMpc = mpc ? (new Date(mpc) - new Date(M.asOf)) / 864e5 : 99;
+    const step = daysToMpc <= 35 ? (M.pillars.OIS_1M - M.pillars.OIS_1D) : (M.forward[Math.ceil(daysToMpc / 30.4)] - M.bankRate);
+    const expect = step > 0.125 ? "probably a rise" : step < -0.125 ? "probably a cut" : "probably no change";
+    $("m-mpc").textContent = mpc ? "Next decision " + new Date(mpc).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) + ": " + expect : "";
+    // 2. Typical fixed deals today (75% loan-to-value)
+    const fix2 = E.impliedFix(0, 2, LTV), fix5 = E.impliedFix(0, 5, LTV);
+    $("m-fix2").innerHTML = pct(fix2) + "<small>%</small>";
+    $("m-fix5").textContent = "5-year fixed about " + pct(fix5) + "%";
+    // 3. Direction of travel for fixed rates
+    const d6 = E.impliedFix(6, 2, LTV) - fix2;
+    const dir = d6 > 0.15 ? ["Rising", "up"] : d6 > 0.05 ? ["Edging up", "up"] : d6 < -0.15 ? ["Falling", "down"] : d6 < -0.05 ? ["Edging down", "down"] : ["Steady", "flat"];
+    $("m-dir").innerHTML = `<span class="${dir[1]}">${dir[1] === "up" ? "▲ " : dir[1] === "down" ? "▼ " : ""}${dir[0]}</span>`;
+    const by = E.addMonths(M.asOf, 6).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+    $("m-dir-d").textContent = Math.abs(d6) < 0.05 ? "little change expected by " + by : "about " + Math.abs(d6).toFixed(1) + "% " + (d6 >= 0 ? "higher" : "lower") + " by " + by;
+    // 4. Where the Bank of England rate is expected to peak
+    const path = E.bankRatePath(36);
     let peak = path[0]; path.forEach(p => { if (p.r > peak.r) peak = p; });
     $("m-peak").innerHTML = (Math.round(peak.r * 4) / 4).toFixed(2) + "<small>%</small>";
-    $("m-peak-d").textContent = "around " + new Date(peak.date).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+    $("m-peak-d").textContent = "Bank of England rate, around " + new Date(peak.date).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
     const live = $("m-live");
     live.className = "live " + (M.source === "live" ? "" : "off");
     live.innerHTML = `<span class="dot"></span><span>${M.source === "live" ? "Live market data · " + M.asOfLabel : "Showing saved snapshot · " + M.asOfLabel + " (live feed unavailable)"}</span>`;

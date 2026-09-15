@@ -94,6 +94,7 @@ section.block { padding: 64px 0; }
 .market .card { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; padding: 22px 28px; align-items: center; }
 .stat .n { font-size: 2rem; font-weight: 900; line-height: 1; letter-spacing: -.02em; }
 .stat .n small { font-size: 1rem; font-weight: 800; color: var(--muted); }
+.stat .n-text { font-size: 1.55rem; padding-top: .2rem; }
 .stat .l { color: var(--muted); font-weight: 700; font-size: .92rem; margin-top: 6px; }
 .stat .d { font-size: .85rem; font-weight: 800; margin-top: 4px; }
 .up { color: #b3261e; } .down { color: var(--mint-dark); } .flat { color: var(--muted); }
