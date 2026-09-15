@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fix o'clock – is it time to fix your mortgage rate?</title>
+<meta name="description" content="Free, friendly and no advice. See the market-implied path for mortgage rates, live from the SONIA curve, and what it could mean for your remortgage timing.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f050f8"/><circle cx="20" cy="20" r="14" fill="#180048"/><path d="M20 20V11M20 20l7 4" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#f050f8"/></svg>
+      Fix <em>o'clock</em>
+    </a>
+    <nav>
+      <a href="#market">Market today</a>
+      <a href="#how">How it works</a>
+      <a href="#promise">No advice, promise</a>
+      <a class="cta" href="calculate.html">Run my numbers</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Is it <span>fix o'clock</span> yet?</h1>
+      <p class="lead">Your mortgage deal's ending. Pop in the date and we'll show you what today's market says about locking now or waiting, in pounds. Sixty seconds. Free. Not advice.</p>
+      <form class="hook" action="calculate.html" method="get">
+        <label for="hookDate">When does your current deal end?</label>
+        <div class="hook-row">
+          <input type="date" id="hookDate" name="dealEnd" required>
+          <button class="btn btn-pink" type="submit">Show me →</button>
+        </div>
+      </form>
+      <div class="trust"><span>Free</span><span>60 seconds</span><span>No sign-up</span><span>Not advice</span></div>
+    </div>
+    <svg class="hero-art" viewBox="0 0 460 380" aria-hidden="true">
+      <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#f050f8"/><stop offset="1" stop-color="#4ef0c0"/></linearGradient></defs>
+      <path d="M40 300 C 120 300, 150 210, 230 200 S 360 150, 430 90" fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round"/>
+      <path d="M40 300 C 120 300, 150 210, 230 200 S 360 150, 430 90 L 430 340 L 40 340 Z" fill="#f050f8" opacity=".08"/>
+      <g transform="translate(150 60)">
+        <path d="M80 10 L 10 80 H 30 V 170 H 130 V 80 H 150 Z" fill="#fff"/>
+        <rect x="55" y="115" width="32" height="55" rx="6" fill="#180048"/>
+        <rect x="95" y="100" width="22" height="22" rx="4" fill="#4ef0c0"/>
+        <rect x="42" y="100" width="22" height="22" rx="4" fill="#4ef0c0"/>
+      </g>
+      <g transform="translate(300 200)">
+        <circle cx="52" cy="62" r="52" fill="#f050f8"/>
+        <circle cx="52" cy="62" r="42" fill="#fff"/>
+        <path d="M52 62 V 32" stroke="#180048" stroke-width="7" stroke-linecap="round"/>
+        <path d="M52 62 L 74 74" stroke="#180048" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="52" cy="62" r="5" fill="#f050f8"/>
+        <circle cx="52" cy="26" r="3" fill="#180048"/><circle cx="88" cy="62" r="3" fill="#180048"/><circle cx="52" cy="98" r="3" fill="#180048"/><circle cx="16" cy="62" r="3" fill="#180048"/>
+      </g>
+      <circle cx="90" cy="80" r="14" fill="#ffd84d"/>
+      <circle cx="400" cy="320" r="9" fill="#4ef0c0"/>
+    </svg>
+  </div>
+</section>
+
+<section class="market wrap" id="market">
+  <div class="card">
+    <div class="stat"><div class="n" id="m-bank">–<small>%</small></div><div class="l">Bank Rate today</div><div class="d" id="m-mpc">Next decision: –</div></div>
+    <div class="stat"><div class="n" id="m-2y">–<small>%</small></div><div class="l">2-year swap rate</div><div class="d" id="m-2y-d"></div></div>
+    <div class="stat"><div class="n" id="m-5y">–<small>%</small></div><div class="l">5-year swap rate</div><div class="d" id="m-5y-d"></div></div>
+    <div class="stat"><div class="n" id="m-peak">–<small>%</small></div><div class="l">Where the market sees Bank Rate peaking</div><div class="d" id="m-peak-d"></div></div>
+  </div>
+  <p class="live" id="m-live" style="margin:10px 6px 0"><span class="dot"></span><span>Connecting to live market data…</span></p>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <span class="eyebrow">The next two years</span>
+    <h2>Where the market thinks Bank Rate is heading</h2>
+    <p style="max-width:680px;color:var(--muted);font-weight:600">This isn't our opinion. It's what today's SONIA swap prices imply, month by month. Fixed mortgage rates are priced off this curve, so when it moves, new deals follow.</p>
+    <div class="card">
+      <div class="legend"><span><i style="background:#f050f8"></i>Market-implied Bank Rate</span><span><i style="background:#180048"></i>Today</span></div>
+      <div class="chart-wrap" id="c-bankrate"></div>
+      <p class="foot-note">Source: live SONIA OIS swap curve, simple money-market bootstrap. The market is often wrong; this is a snapshot of expectations, not a prediction.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="how" style="padding-top:0">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>Three questions. Real numbers. Your call.</h2>
+    <div class="grid3">
+      <div class="card step"><div class="num">1</div><h3>Tell us about your mortgage</h3><p>Balance, home value, when your deal ends, your current rate. Sixty seconds, nothing stored on our servers.</p></div>
+      <div class="card step"><div class="num">2</div><h3>We map you onto the curve</h3><p>We take today's swap curve, add typical lender pricing for your loan-to-value, and show the range of rates the market implies at your deal end.</p></div>
+      <div class="card step"><div class="num">3</div><h3>You see it in pounds</h3><p>Monthly payments, 2-year versus 5-year cost, what leaving early would cost. Clear charts, no verdicts, you decide.</p></div>
+    </div>
+    <div style="margin-top:28px"><a class="btn btn-ink" href="calculate.html">Run my numbers →</a></div>
+  </div>
+</section>
+
+<section class="block" id="promise" style="padding-top:0">
+  <div class="wrap">
+    <div class="promise">
+      <div>
+        <span class="eyebrow">Our promise</span>
+        <h2 style="color:#fff">We don't give advice. Ever.</h2>
+        <p style="opacity:.9">We're a data team, not a broker. We'll never tell you what to do, recommend a product, or nudge you towards anyone. If you'd like advice, a regulated mortgage adviser is the right person, and we'll say so.</p>
+      </div>
+      <ul>
+        <li>Every number comes from public market prices, and we show our working</li>
+        <li>Ranges, not point predictions. The market is often wrong</li>
+        <li>No products, no lenders, no commission on this page</li>
+        <li>Your details stay in your browser</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
+    <div>Market data: live SONIA swap curve. Typical lender pricing by loan-to-value is an estimate from published best-buy tables and will differ from any actual offer.</div>
+  </div>
+</footer>
+
+<script src="curve.js"></script>
+<script src="data/market.js"></script>
+<script src="engine.js"></script>
+<script src="live.js"></script>
+<script src="charts.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const pct = x => x.toFixed(2);
+  function delta(cur, prev) {
+    if (prev == null) return "";
+    const d = cur - prev, bp = Math.round(d * 100);
+    if (Math.abs(bp) < 1) return '<span class="flat">unchanged vs last close</span>';
+    return `<span class="${bp > 0 ? "up" : "down"}">${bp > 0 ? "▲" : "▼"} ${Math.abs(bp)}bp vs last close</span>`;
+  }
+  function render() {
+    const M = window.MARKET, prev = M.previousPillars || {};
+    $("m-bank").innerHTML = pct(M.bankRate) + "<small>%</small>";
+    const mpc = window.Live.nextMpc();
+    $("m-mpc").textContent = mpc ? "Next decision: " + new Date(mpc).toLocaleDateString("en-GB", { day: "numeric", month: "long" }) : "";
+    $("m-2y").innerHTML = pct(M.swap2y) + "<small>%</small>"; $("m-2y-d").innerHTML = delta(M.swap2y, prev.OIS_2Y);
+    $("m-5y").innerHTML = pct(M.swap5y) + "<small>%</small>"; $("m-5y-d").innerHTML = delta(M.swap5y, prev.OIS_5Y);
+    const path = window.Engine.bankRatePath(36);
+    let peak = path[0]; path.forEach(p => { if (p.r > peak.r) peak = p; });
+    $("m-peak").innerHTML = (Math.round(peak.r * 4) / 4).toFixed(2) + "<small>%</small>";
+    $("m-peak-d").textContent = "around " + new Date(peak.date).toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+    const live = $("m-live");
+    live.className = "live " + (M.source === "live" ? "" : "off");
+    live.innerHTML = `<span class="dot"></span><span>${M.source === "live" ? "Live market data · " + M.asOfLabel : "Showing saved snapshot · " + M.asOfLabel + " (live feed unavailable)"}</span>`;
+    const pts = window.Engine.bankRatePath(24);
+    const ticks = pts.filter(p => p.t % 6 === 0).map(p => ({ x: p.t, label: window.Engine.fmtMonth(p.date) }));
+    window.Charts.line($("c-bankrate"), {
+      series: [{ name: "", points: pts.map(p => ({ x: p.t, y: p.r })), color: "#f050f8" }],
+      hlines: [{ y: M.bankRate, label: "Today " + pct(M.bankRate) + "%", color: "#180048" }],
+      xTicks: ticks, yLabel: y => y.toFixed(2) + "%", height: 320, aria: "Market-implied Bank Rate path",
+    });
+  }
+  render();
+  document.addEventListener("market:updated", render);
+})();
+</script>
+</body>
+</html>

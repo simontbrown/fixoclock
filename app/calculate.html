@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run my numbers – Fix o'clock</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f050f8"/><circle cx="20" cy="20" r="14" fill="#180048"/><path d="M20 20V11M20 20l7 4" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#f050f8"/></svg>
+      Fix <em>o'clock</em>
+    </a>
+    <nav>
+      <a href="index.html#market">Market today</a>
+      <a href="index.html#how">How it works</a>
+      <a class="cta" href="#form">Run my numbers</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-head">
+  <div class="narrow">
+    <span class="eyebrow">Your numbers</span>
+    <h1 style="font-size:clamp(1.9rem,4.5vw,3rem)">Tell us about your mortgage</h1>
+    <p>Five quick details. Everything stays in your browser. We'll show you what today's market implies for your deal, in pounds, with charts.</p>
+  </div>
+</section>
+
+<main class="narrow lift">
+  <form class="card" id="form" autocomplete="off">
+    <div class="form-grid">
+      <div>
+        <label for="balance">Mortgage balance <span class="hint">Roughly what you still owe</span></label>
+        <div class="field has-pre"><span class="pre">£</span><input id="balance" type="number" inputmode="numeric" min="10000" step="1000" value="220000" required></div>
+      </div>
+      <div>
+        <label for="value">Home value <span class="hint">Your best guess is fine</span></label>
+        <div class="field has-pre"><span class="pre">£</span><input id="value" type="number" inputmode="numeric" min="20000" step="5000" value="360000" required></div>
+      </div>
+      <div>
+        <label for="dealEnd">When your current deal ends <span class="hint">It's on your mortgage offer or annual statement</span></label>
+        <div class="field"><input id="dealEnd" type="date" value="2027-02-28" required></div>
+      </div>
+      <div>
+        <label for="currentRate">Your current rate <span class="hint">The rate on your fixed deal</span></label>
+        <div class="field has-suf"><input id="currentRate" type="number" inputmode="decimal" min="0" max="15" step="0.01" value="1.89" required><span class="suf">%</span></div>
+      </div>
+      <div>
+        <label for="termYears">Years left on the mortgage <span class="hint">The whole term, not the deal</span></label>
+        <div class="field has-suf"><input id="termYears" type="number" inputmode="numeric" min="1" max="40" step="1" value="22" required><span class="suf">yrs</span></div>
+      </div>
+      <div>
+        <details class="more">
+          <summary>Optional: early repayment charge and fees</summary>
+          <div class="form-grid" style="margin-top:14px">
+            <div>
+              <label for="ercPct">Early repayment charge <span class="hint">On your offer, e.g. 2%</span></label>
+              <div class="field has-suf"><input id="ercPct" type="number" inputmode="decimal" min="0" max="10" step="0.5" value="2"><span class="suf">%</span></div>
+            </div>
+            <div>
+              <label for="fee">Typical product fee <span class="hint">Per new deal</span></label>
+              <div class="field has-pre"><span class="pre">£</span><input id="fee" type="number" inputmode="numeric" min="0" step="1" value="999"></div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-pink" type="submit">Show my charts →</button>
+      <span class="note" id="ltv-note"></span>
+    </div>
+  </form>
+
+  <div id="results" class="hidden">
+
+    <section class="card one" id="r-one">
+      <span class="eyebrow">The one number</span>
+      <div class="big" id="one-n"></div>
+      <div class="big-k" id="one-k"></div>
+      <div class="big-s" id="one-s"></div>
+    </section>
+
+    <div class="notice" style="margin-top:24px"><span class="i">i</span><span>These are market-implied numbers, not predictions and not advice. Real offers depend on your lender, credit history and the day you apply. <span id="live-note"></span></span></div>
+
+    <section class="card result" id="r-rates">
+      <h2>Rates ahead <span class="chip" id="ltv-chip"></span></h2>
+      <div class="plain" id="p-rates"></div>
+      <div class="legend"><span><i style="background:#f050f8"></i>Typical 2-year fix</span><span><i style="background:#180048"></i>Typical 5-year fix</span><span><i style="background:#f050f8;opacity:.25"></i>Middle 50% of outcomes</span></div>
+      <div class="chart-wrap" id="c-rates"></div>
+      <div class="readouts">
+        <div class="readout"><div class="v" id="v-now2"></div><div class="k">Typical 2-year fix today for your LTV</div></div>
+        <div class="readout"><div class="v" id="v-end2"></div><div class="k" id="k-end2">Market-implied 2-year fix at your deal end</div></div>
+        <div class="readout"><div class="v" id="v-p2"></div><div class="k">Chance the 2-year rate is higher then than now</div></div>
+      </div>
+      <p class="foot-note" id="n-rates"></p>
+    </section>
+
+    <section class="card result" id="r-pay">
+      <h2>Your monthly payment</h2>
+      <div class="plain" id="p-pay"></div>
+      <div class="chart-wrap" id="c-pay"></div>
+      <p class="foot-note">Repayment mortgage, same remaining term for each. "Do nothing" uses a typical standard variable rate; your lender's may differ.</p>
+    </section>
+
+    <section class="card result" id="r-25">
+      <h2>2-year vs 5-year</h2>
+      <div class="plain" id="p-25"></div>
+      <div class="chart-wrap" id="c-25"></div>
+      <div class="readouts">
+        <div class="readout"><div class="v" id="v-be3"></div><div class="k">Break-even 3-year rate in two years' time</div></div>
+        <div class="readout"><div class="v" id="v-r3"></div><div class="k">Market-implied 3-year rate then (middle 50%)</div></div>
+        <div class="readout"><div class="v" id="v-p23"></div><div class="k">Chance the 2-then-3 route ends up cheaper</div></div>
+      </div>
+      <p class="foot-note">Cost is interest plus product fees over five years, comparing one 5-year fix against a 2-year fix followed by a 3-year fix at the rate the market currently implies. Fees and rates in the second period are assumptions.</p>
+    </section>
+
+    <section class="card result" id="r-erc">
+      <h2>Leaving your deal early</h2>
+      <div class="plain" id="p-erc"></div>
+      <div class="chart-wrap" id="c-erc"></div>
+      <div class="readouts">
+        <div class="readout"><div class="v" id="v-ercm"></div><div class="k">Months to recover the exit cost</div></div>
+        <div class="readout"><div class="v" id="v-ercleft"></div><div class="k">Months left on your current deal</div></div>
+        <div class="readout"><div class="v" id="v-ercnet"></div><div class="k">Net effect over the rest of your deal</div></div>
+      </div>
+      <p class="foot-note">Compares staying on your current rate until the deal ends with paying the charge and moving to a typical 5-year fix today. It ignores what happens after your deal would have ended, which cuts both ways.</p>
+    </section>
+
+    <section class="card remind">
+      <h2 style="color:#fff">Want a nudge when your lock window opens?</h2>
+      <p style="opacity:.9;margin:0" id="remind-text">Most lenders let you reserve a new rate up to six months before your deal ends. We can remind you, and nothing else.</p>
+      <div class="row"><input type="email" id="email" placeholder="you@example.com"><button class="btn btn-pink" type="button" id="remind-btn">Remind me</button></div>
+      <label class="check"><input type="checkbox" id="broker"> Optional: I'm happy for a regulated mortgage adviser to contact me. We'd be paid a referral fee if you went ahead, and it never changes the numbers you see here.</label>
+      <div class="ok hidden" id="remind-ok">Done. Saved in this browser for now; nothing has been sent anywhere.</div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
+    <div>Market data: live SONIA swap curve. Typical lender pricing by loan-to-value is an estimate from published best-buy tables and will differ from any actual offer.</div>
+  </div>
+</footer>
+
+<script src="curve.js"></script>
+<script src="data/market.js"></script>
+<script src="engine.js"></script>
+<script src="live.js"></script>
+<script src="charts.js"></script>
+<script src="calculate.js"></script>
+</body>
+</html>
