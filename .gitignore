@@ -3,3 +3,4 @@ app/news/
 *.pdf
 Thumbs.db
 .DS_Store
+__pycache__/
