@@ -305,7 +305,7 @@ HEAD = """<!doctype html>
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
-<link rel="alternate" type="application/rss+xml" title="Fix o'clock – mortgage rates today" href="{site}/news/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Fix o'clock – homeowner's digest" href="{site}/news/feed.xml">
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="stylesheet" href="../styles.css?v=8">
 <script type="application/ld+json">{ld}</script>
@@ -318,7 +318,7 @@ HEAD = """<!doctype html>
       Fix <em>o'clock</em>
     </a>
     <nav>
-      <a href="index.html">Rates today</a>
+      <a href="index.html">Homeowner's digest</a>
       <a href="../position.html">Which deal?</a>
       <a href="../index.html#how">How it works</a>
       <a class="cta" href="../calculate.html">Run my numbers</a>
@@ -364,8 +364,8 @@ def chip(d):
 
 def render_day(x, spark_points, evergreen, all_days):
     date_long = fmt(x["day"], "%-d %B %Y")
-    title = ("Mortgage rates today" if evergreen else f"Mortgage rates on {date_long}") + " – Fix o'clock"
-    h1 = "Mortgage rates today" if evergreen else f"Mortgage rates on {date_long}"
+    title = ("Homeowner's digest: mortgage rates today" if evergreen else f"Homeowner's digest for {date_long}") + " – Fix o'clock"
+    h1 = "Homeowner's digest" if evergreen else f"Homeowner's digest, {date_long}"
     canonical = f"{SITE}/news/" if evergreen else f"{SITE}/news/{x['date']}.html"
     desc = f"Typical 2-year deal {pct(x['fix2'])}, 5-year {pct(x['fix5'])}. Bank of England rate {x['br']:.2f}%. Updated {x['ts_label']}."
     ld = json.dumps({
@@ -385,7 +385,7 @@ def render_day(x, spark_points, evergreen, all_days):
   <div class="narrow">
     <span class="eyebrow">{"Updated " + x["ts_label"] if evergreen else date_long}</span>
     <h1 style="font-size:clamp(1.9rem,4.5vw,3rem)">{h1}</h1>
-    <p>What today's money markets mean for fixed mortgage deals, in plain English. Not advice.</p>
+    <p>Mortgage rates today, and what the money markets mean for fixed deals, in plain English. Not advice.</p>
   </div>
 </section>
 <main class="narrow lift">
@@ -400,7 +400,7 @@ def render_day(x, spark_points, evergreen, all_days):
   </section>
 
   <section class="card">
-    <h2>Homeowner's read</h2>
+    <h2>Today's read</h2>
     <div class="read">{paras}</div>
     <p class="foot-note">Generated from market prices, not opinion. "Typical" means someone borrowing 75% of their home's value. What the market expects today is not a prediction and not advice.</p>
     <a class="btn btn-pink" href="../calculate.html">See what this means for my mortgage →</a>
@@ -424,10 +424,10 @@ def render_feed(days):
         link = f"{SITE}/news/{d['date']}.html"
         text = html.escape(re.sub(r"<[^>]+>", "", " ".join(d["paras"])))
         pub = dt.datetime.combine(d["day"], dt.time(18, 0)).strftime("%a, %d %b %Y %H:%M:%S +0000")
-        items.append(f"<item><title>Mortgage rates on {fmt(d['day'], '%-d %B %Y')}: 2-year deal at {pct(d['fix2'])}</title>"
+        items.append(f"<item><title>Homeowner's digest, {fmt(d['day'], '%-d %B %Y')}: 2-year deal at {pct(d['fix2'])}</title>"
                      f"<link>{link}</link><guid>{link}</guid><pubDate>{pub}</pubDate><description>{text}</description></item>")
     return ('<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel>'
-            f"<title>Fix o'clock – mortgage rates today</title><link>{SITE}/news/</link>"
+            f"<title>Fix o'clock – homeowner's digest</title><link>{SITE}/news/</link>"
             "<description>What today's money markets mean for fixed mortgage deals, in plain English. Not advice.</description>"
             + "".join(items) + "</channel></rss>")
 
