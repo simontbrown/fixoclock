@@ -27,6 +27,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 92px; }
 body { margin: 0; font-family: var(--font); color: var(--text); background: var(--cloud); font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 a { color: var(--ink-3); }
 h1, h2, h3 { line-height: 1.12; margin: 0 0 .4em; letter-spacing: -.01em; }
