@@ -188,6 +188,46 @@ footer strong { color: var(--ink); }
 .days { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 .days a { font-weight: 800; }
 
+/* Which deal? page */
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+.mode { font: inherit; cursor: pointer; border: 2px solid var(--lilac-2); background: #fff; border-radius: 16px; padding: 16px 18px; text-align: left; display: grid; gap: 2px; color: var(--ink); }
+.mode b { font-size: 1.1rem; font-weight: 900; }
+.mode span { color: var(--muted); font-weight: 700; font-size: .95rem; }
+.mode[aria-pressed="true"] { border-color: var(--pink); background: var(--pink-soft); }
+.mode:hover { border-color: var(--pink); }
+@media (max-width: 560px) { .modes { grid-template-columns: 1fr; } }
+.prefill { background: var(--teal-soft, #e6f4f4); background: #e6faf3; color: #0f9a75; font-weight: 800; border-radius: 12px; padding: 10px 14px; margin: 0 0 18px; }
+.check-row { display: flex; gap: 10px; align-items: flex-start; font-weight: 800; padding-top: 30px; }
+.check-row input { width: 20px; height: 20px; margin-top: 2px; }
+.check-row .hint { font-weight: 600; }
+.field select { width: 100%; font: inherit; font-weight: 700; font-size: 1.1rem; padding: 14px 16px; border: 2px solid var(--lilac-2); border-radius: 14px; background: #fff; color: var(--ink); }
+.form-grid.adv { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 680px) { .form-grid.adv { grid-template-columns: 1fr; } }
+.form-grid.adv .field input { font-size: 1rem; padding: 10px 12px; }
+.card.one .lead-big { font-size: clamp(1.4rem, 3.4vw, 2rem); font-weight: 900; line-height: 1.2; margin: 0 0 12px; }
+.card.one .lead-big b { color: var(--pink); }
+.card.one .sub-big { font-size: 1.05rem; font-weight: 600; opacity: .92; margin: 0; }
+.card.one .sub-big b { color: #ffd39a; }
+.whatif { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; margin: 8px 0 12px; }
+.whatif input[type=range] { width: 100%; accent-color: var(--pink); }
+.whatif .wiv { font-weight: 900; color: var(--pink-dark); min-width: 130px; text-align: right; }
+@media (max-width: 560px) { .whatif { grid-template-columns: 1fr; } .whatif .wiv { text-align: left; } }
+.figs { grid-template-columns: 1fr 1fr; }
+@media (max-width: 680px) { .figs { grid-template-columns: 1fr; } }
+.readout .s { color: var(--muted); font-weight: 600; font-size: .85rem; margin-top: 6px; }
+.readout details { margin-top: 8px; }
+.readout summary { cursor: pointer; font-weight: 800; font-size: .85rem; color: var(--ink-3); }
+.readout details p { font-size: .9rem; margin: 6px 0 0; font-weight: 600; }
+.h2-like { cursor: pointer; font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 900; }
+table.ledger { width: 100%; border-collapse: collapse; margin: 14px 0 6px; font-size: .92rem; }
+table.ledger th { text-align: left; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 8px 8px; border-bottom: 2px solid var(--line); }
+table.ledger td { padding: 8px; border-bottom: 1px solid var(--line); font-weight: 600; vertical-align: top; }
+table.ledger tr.tot td { font-weight: 900; border-bottom: 0; }
+table.ledger tr.win td { color: var(--mint-dark); }
+.guide details { border-top: 1px solid var(--line); padding: 12px 0; }
+.guide summary { cursor: pointer; font-weight: 800; }
+.guide p { margin: 8px 0 0; color: var(--muted); font-weight: 600; }
+
 /* Page header for calculator */
 .page-head { background: var(--ink); color: #fff; padding: 44px 0 90px; }
 .page-head p { opacity: .9; max-width: 640px; font-size: 1.1rem; }

@@ -306,7 +306,7 @@ HEAD = """<!doctype html>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" type="application/rss+xml" title="Fix o'clock – mortgage rates today" href="{site}/news/feed.xml">
-<link rel="stylesheet" href="../styles.css?v=3">
+<link rel="stylesheet" href="../styles.css?v=4">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
@@ -318,6 +318,7 @@ HEAD = """<!doctype html>
     </a>
     <nav>
       <a href="index.html">Rates today</a>
+      <a href="../position.html">Which deal?</a>
       <a href="../index.html#how">How it works</a>
       <a class="cta" href="../calculate.html">Run my numbers</a>
     </nav>

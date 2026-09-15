@@ -18,6 +18,8 @@ Opening `app/index.html` directly from disk also works, but the live feed may be
 |---|---|
 | `index.html` | Landing page: live market strip, implied Bank Rate chart, how it works, no-advice promise |
 | `calculate.html` + `calculate.js` | The calculator: one form, four chart sections, reminder capture |
+| `position.html` + `position.js` | "Which deal?": 2-year vs 5-year, or leave early vs stay, costed in full with break-evens |
+| `position-engine.js` | Cost engine ported unchanged from Phil's mortgage-position project; verified against its worked example to the pound |
 | `curve.js` | Bootstraps monthly forwards from SONIA OIS pillars |
 | `data/market.js` | Snapshot pillars, consumer anchors (best-buy, SVR, LTV margins), MPC dates |
 | `live.js` | Fetches the SONIA OIS feed (`feedUrl` in `data/market.js`) every 5 minutes and updates the market object |
