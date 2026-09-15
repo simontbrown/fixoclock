@@ -1,8 +1,11 @@
-name: Deploy to GitHub Pages
+name: Build news and deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+  schedule:
+    # Every 30 minutes, 06:00–17:59 UTC on weekdays (UK trading hours).
+    - cron: "*/30 6-17 * * 1-5"
   workflow_dispatch:
 
 permissions:
@@ -22,6 +25,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build news pages from the public data feed (read-only)
+        run: python scripts/build_news.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

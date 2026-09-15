@@ -174,6 +174,20 @@ footer { padding: 40px 0 60px; color: var(--muted); font-size: .9rem; }
 footer .wrap { display: grid; gap: 10px; }
 footer strong { color: var(--ink); }
 
+/* News pages */
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+@media (max-width: 860px) { .tiles { grid-template-columns: 1fr 1fr; } }
+.spark-row { display: flex; align-items: center; gap: 16px; margin-top: 18px; flex-wrap: wrap; }
+.spark { width: 320px; max-width: 100%; height: auto; }
+.muted { color: var(--muted); font-weight: 700; font-size: .9rem; }
+.read p { font-size: 1.1rem; margin-bottom: .9em; }
+.read b { color: var(--pink-dark); }
+.ctx { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.ctx li { display: grid; grid-template-columns: 52px 1fr; gap: 10px; font-weight: 600; }
+.ctx .t { color: var(--muted); font-weight: 800; font-size: .9rem; padding-top: 2px; }
+.days { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.days a { font-weight: 800; }
+
 /* Page header for calculator */
 .page-head { background: var(--ink); color: #fff; padding: 44px 0 90px; }
 .page-head p { opacity: .9; max-width: 640px; font-size: 1.1rem; }

@@ -42,11 +42,11 @@ window.Engine = (function () {
   // ---------- curve helpers ----------
   const avgForward = (from, to) => window.Curve.avg(M().forward, from, to);
 
-  // Lender margin over the curve: anchored so a 60% LTV 2-yr fix today equals
-  // the observed best-buy level, then stepped up by LTV band.
+  // Lender margin over the curve: a fixed, calibrated margin at 60% LTV
+  // (market.js spread60), stepped up by LTV band.
   function spreadFor(ltv) {
     const m = M();
-    const base = m.bestBuy2y60 - avgForward(0, 24);
+    const base = m.spread60;
     for (const band of m.ltvBands) if (ltv <= band.maxLtv) return base + band.add;
     return base + m.ltvBands[m.ltvBands.length - 1].add + 0.6;
   }

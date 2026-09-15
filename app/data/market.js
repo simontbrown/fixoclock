@@ -29,7 +29,11 @@ window.MARKET = (function () {
     avg2yr: 5.52,          // Moneyfacts average 2-yr fix, 1 Sept 2026
     avg5yr: 5.65,
     svr: 7.35,             // typical reversion rate
-    bestBuy2y60: 4.45,     // typical competitive 2-yr fix at 60% LTV, mid Sept 2026
+    // Lender margin over the 2-yr swap-equivalent at 60% LTV. Calibrated once,
+    // on 14 Sept 2026, so that a typical best-buy 2-yr fix came out at 4.45%.
+    // Fixed, so implied deals move with the curve day to day. Re-calibrate
+    // occasionally against best-buy tables; do not re-anchor automatically.
+    spread60: -0.05,
     // Extra lender margin by LTV band, on top of the 60% LTV anchor.
     ltvBands: [
       { maxLtv: 60, add: 0.00 },
