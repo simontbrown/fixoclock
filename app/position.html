@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Which deal? – Fix o'clock</title>
-<meta name="description" content="2-year or 5-year? Leave early or stay? Every payment, fee and what you'd still owe, costed in full on today's market. No forecasts, no advice.">
-<link rel="stylesheet" href="styles.css?v=4">
+<meta name="description" content="2-year or 5-year? Leave early or stay? We add up every payment and fee over five years and tell you which costs less. No forecasts, no advice.">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 
@@ -26,8 +26,8 @@
 <section class="page-head">
   <div class="narrow">
     <span class="eyebrow">Which deal?</span>
-    <h1 style="font-size:clamp(1.9rem,4.5vw,3rem)">Compare your actual offers, properly</h1>
-    <p>Headline rates lie. This counts every monthly payment, every fee, and what you'd still owe at the end, then tells you what would have to happen for the other choice to win. No forecasts. No advice.</p>
+    <h1 style="font-size:clamp(1.9rem,4.5vw,3rem)">Two deals. Which one costs less?</h1>
+    <p>Type in the deals you've been offered. We add up every payment and fee over the next five years and tell you which one costs less, and what would have to change for the other one to win. Not advice.</p>
   </div>
 </section>
 
@@ -39,141 +39,79 @@
   </div>
 
   <form class="card" id="form" autocomplete="off" onsubmit="return false">
-    <p class="prefill hidden" id="prefill-note">We've filled in the details you entered on the calculator. Change anything below.</p>
+    <p class="prefill hidden" id="prefill-note">We've used the details you entered on the calculator.</p>
     <div class="form-grid">
       <div>
-        <label for="bal">Mortgage balance</label>
+        <label for="bal">What you owe</label>
         <div class="field has-pre"><span class="pre">£</span><input id="bal" type="number" min="10000" step="1000" value="250000"></div>
-      </div>
-      <div>
-        <label for="value">Home value <span class="hint">Sets the typical rates we fill in</span></label>
-        <div class="field has-pre"><span class="pre">£</span><input id="value" type="number" min="20000" step="5000" value="360000"></div>
       </div>
       <div>
         <label for="term">Years left on the mortgage</label>
         <div class="field has-suf"><input id="term" type="number" min="1" max="40" step="1" value="23"><span class="suf">yrs</span></div>
       </div>
-      <div>
+      <div class="onlyB hidden">
         <label for="cur">Rate you pay now</label>
         <div class="field has-suf"><input id="cur" type="number" min="0" max="15" step="0.01" value="1.99"><span class="suf">%</span></div>
       </div>
-      <div>
+      <div class="onlyB hidden">
         <label for="left">Months left on your current deal</label>
-        <div class="field has-suf"><input id="left" type="number" min="0" max="120" step="1" value="4"><span class="suf">mo</span></div>
+        <div class="field has-suf"><input id="left" type="number" min="1" max="120" step="1" value="25"><span class="suf">mo</span></div>
       </div>
-      <div id="ercBlock" class="hidden">
-        <label for="into">Months into your current deal</label>
-        <div class="field has-suf"><input id="into" type="number" min="0" max="120" step="1" value="35"><span class="suf">mo</span></div>
-        <label for="erc" style="margin-top:14px">Early repayment charge <span class="hint">One number, or by year e.g. 5,4,3,2,1</span></label>
-        <div class="field has-suf"><input id="erc" type="text" value="5,4,3,2,1"><span class="suf">%</span></div>
+      <div class="onlyB hidden">
+        <label for="erc">Charge for leaving early <span class="hint">On your offer letter, e.g. 2%</span></label>
+        <div class="field has-suf"><input id="erc" type="number" min="0" max="10" step="0.5" value="2"><span class="suf">%</span></div>
       </div>
-    </div>
-
-    <h3 id="offers-title" style="margin:26px 0 10px">The deals you've been offered</h3>
-    <p class="muted" style="margin-top:0">We've filled in today's typical rates for your loan-to-value. Replace them with the rates you've actually been offered.</p>
-    <div class="form-grid">
-      <div id="o2-wrap">
-        <label for="o2">2-year fixed rate</label>
+      <div class="onlyA">
+        <label for="o2">2-year deal you've been offered</label>
         <div class="field has-suf"><input id="o2" type="number" min="0" max="15" step="0.01"><span class="suf">%</span></div>
       </div>
       <div>
-        <label for="o5">5-year fixed rate</label>
+        <label for="o5" id="o5-label">5-year deal you've been offered</label>
         <div class="field has-suf"><input id="o5" type="number" min="0" max="15" step="0.01"><span class="suf">%</span></div>
       </div>
       <div>
-        <label for="fee">Product fee</label>
+        <label for="fee">Fee on the new deal <span class="hint">Usually £0 to £1,499. We assume it's added to the loan.</span></label>
         <div class="field has-pre"><span class="pre">£</span><input id="fee" type="number" min="0" step="1" value="999"></div>
       </div>
-      <div>
-        <label for="oth">Other costs <span class="hint">Valuation, legal, exit fees</span></label>
-        <div class="field has-pre"><span class="pre">£</span><input id="oth" type="number" min="0" step="1" value="0"></div>
-      </div>
-      <div>
-        <label for="hz">Compare over</label>
-        <div class="field"><select id="hz"><option value="24">2 years</option><option value="36">3 years</option><option value="60" selected>5 years</option><option value="120">10 years</option></select></div>
-      </div>
-      <div>
-        <label class="check-row"><input id="feeAdded" type="checkbox" checked> Fee added to the loan <span class="hint">Most people do this. You then pay interest on it.</span></label>
-      </div>
     </div>
-
-    <details class="more">
-      <summary>Advanced: the market numbers behind this</summary>
-      <p class="muted" id="mkt-src" style="margin:10px 0"></p>
-      <div class="form-grid adv">
-        <div><label for="q2">Typical 2-year deal</label><div class="field has-suf"><input id="q2" type="number" step="0.01"><span class="suf">%</span></div></div>
-        <div><label for="q3">Typical 3-year deal</label><div class="field has-suf"><input id="q3" type="number" step="0.01"><span class="suf">%</span></div></div>
-        <div><label for="q5">Typical 5-year deal</label><div class="field has-suf"><input id="q5" type="number" step="0.01"><span class="suf">%</span></div></div>
-        <div><label for="svr">Standard variable rate</label><div class="field has-suf"><input id="svr" type="number" step="0.01"><span class="suf">%</span></div></div>
-        <div><label for="s1">Market rate, 1 year</label><div class="field has-suf"><input id="s1" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="s2">Market rate, 2 years</label><div class="field has-suf"><input id="s2" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="s3">Market rate, 3 years</label><div class="field has-suf"><input id="s3" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="s4">Market rate, 4 years</label><div class="field has-suf"><input id="s4" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="s5">Market rate, 5 years</label><div class="field has-suf"><input id="s5" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="s7">Market rate, 7 years</label><div class="field has-suf"><input id="s7" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="s10">Market rate, 10 years</label><div class="field has-suf"><input id="s10" type="number" step="0.001"><span class="suf">%</span></div></div>
-        <div><label for="spr">Lender margin over market rate <span class="hint">In hundredths of a percent</span></label><div class="field has-suf"><input id="spr" type="number" step="1"><span class="suf">bp</span></div></div>
-        <div><label for="rl">Lock-early option value</label><div class="field has-suf"><input id="rl" type="number" step="1" value="25"><span class="suf">bp</span></div></div>
-        <div><label for="fr">Lock-early friction</label><div class="field has-suf"><input id="fr" type="number" step="1" value="5"><span class="suf">bp</span></div></div>
-        <div><label for="dr">Discount rate <span class="hint">Blank uses the typical 5-year deal</span></label><div class="field has-suf"><input id="dr" type="number" step="0.01" placeholder="auto"><span class="suf">%</span></div></div>
-        <div><label class="check-row"><input id="applyRl" type="checkbox" checked> Count the lock-early option on future deals</label></div>
-      </div>
-      <button type="button" class="btn btn-ink" id="reset-mkt" style="margin-top:14px">Reset to today's market</button>
-    </details>
+    <p class="muted" id="typical-note" style="margin:16px 0 0"></p>
   </form>
 
   <div id="results" class="hidden">
     <section class="card one">
-      <span class="eyebrow">On today's prices</span>
+      <span class="eyebrow">Adding it all up</span>
       <p class="lead-big" id="lead"></p>
       <p class="sub-big" id="sub"></p>
+      <p class="sub-big" id="sub2" style="margin-top:10px"></p>
     </section>
 
-    <div class="notice" style="margin-top:24px"><span class="i">i</span><span>This compares your own options against today's market prices. It's not a prediction and not advice. If you might move house, overpay heavily, or need flexibility, a shorter deal buys that, and it isn't priced here.</span></div>
+    <section class="card result">
+      <h2 id="chartTitle">What you'd pay each month</h2>
+      <div class="legend" id="legend"></div>
+      <div class="chart-wrap"><svg id="svg" class="chart" viewBox="0 0 720 300" role="img" aria-label="Monthly payment by route"></svg></div>
+      <p class="foot-note" id="chart-note"></p>
+    </section>
 
     <section class="card result">
-      <h2>What if the market is wrong?</h2>
+      <h2>What if the market's wrong?</h2>
       <p class="muted" id="wiq"></p>
       <div class="whatif">
         <input id="wi" type="range" min="-150" max="150" step="5" value="0" aria-label="How far future rates differ from what the market expects">
         <div class="wiv" id="wiv"></div>
       </div>
       <p class="plain" id="wia"></p>
-      <p class="foot-note">The market's price is the middle of the road, not a promise. In 2021 it was badly wrong. Drag the slider to see how far reality would have to differ before the other choice wins.</p>
     </section>
 
-    <section class="card result">
-      <h2>The numbers that matter</h2>
-      <div class="readouts figs" id="figs"></div>
-    </section>
+    <div class="notice"><span class="i">i</span><span>This adds up your own options at today's prices. It isn't a prediction and it isn't advice. If you might move house or need flexibility, a shorter deal gives you that, and we haven't put a price on it.</span></div>
 
     <section class="card result">
-      <h2 id="chartTitle">Your monthly payment, route by route</h2>
-      <div class="legend" id="legend"></div>
-      <div class="chart-wrap"><svg id="svg" class="chart" viewBox="0 0 720 300" role="img" aria-label="Monthly payment by route"></svg></div>
-      <p class="foot-note">Steps are where one deal ends and the next begins. Future deals use the rate the market implies today, plus the usual lender margin.</p>
-    </section>
-
-    <section class="card result">
-      <details>
-        <summary class="h2-like">Show the working</summary>
-        <p class="muted">Each row is a period on one rate. The three totals are what you'd pay, the fees, and what you'd still owe at the end, all converted to today's money so they can be added up. The lower total is the cheaper route.</p>
-        <div id="ledger"></div>
-      </details>
-    </section>
-
-    <section class="card result">
-      <h2>Plain-English guide</h2>
+      <h2>How this works</h2>
       <div class="guide">
-        <details><summary>Where does a fixed mortgage rate actually come from?</summary><p>Your lender borrows the money it lends you. To offer you a fixed rate for two years it locks in its own cost of money for two years, in what's called the swap market. Then it adds a margin to cover its costs and profit. So a fixed mortgage rate is the market rate plus the lender's margin. The market rate changes every day; the margin barely moves.</p></details>
-        <details><summary>What does "what the market expects" mean?</summary><p>If you know what it costs to lock in money for two years, and what it costs to lock in for four years, you can work out what the market is implying for the two years in between. That's arithmetic, not opinion. When this page needs to know what a 2-year deal will cost in two years' time, it uses that number plus the usual lender margin. It's the same number a bank would use. It isn't a forecast, and it can be wrong. The "what if" slider shows how wrong it would have to be to change the answer.</p></details>
-        <details><summary>What is "today's money"?</summary><p>£100 in five years' time is worth less than £100 today, because you could use £100 today to pay down your mortgage and save interest on it. So before adding up payments made in different years, we shrink the later ones to what they're worth today, using your mortgage rate. Without this, a route that pushes cost into the future would look artificially cheap.</p></details>
-        <details><summary>Why count what I'd still owe at the end?</summary><p>Different routes pay off the loan at different speeds. A lower rate pays off more of the balance each month. If we only counted payments, a route could look cheap simply by leaving you owing more at the end. Counting what's still owed makes the comparison fair.</p></details>
-        <details><summary>What's the free "lock early" option?</summary><p>Most lenders let you arrange your next deal up to six months before your current one ends. If a cheaper deal appears before your new one starts, you can switch to it. Since the 2023 Mortgage Charter this is standard at the big lenders. So you never lose by locking early. On Bank of England data since 2009, doing this saved about a quarter of a percent on the rate on average, and saved something four times out of five. We count 0.20% after allowing for a bit of friction, but only on deals you haven't taken yet, never on one you already hold.</p></details>
-        <details><summary>What's an early repayment charge?</summary><p>A penalty for leaving a fixed deal early: a percentage of your balance, usually stepping down each year, for example 5%, 4%, 3%, 2%, 1%. It doesn't change when interest rates move, so when rates fall a lot, leaving can be cheap compared with the saving. This page works out whether it is.</p></details>
-        <details><summary>Why does "fee added to the loan" matter?</summary><p>Most people add the product fee to the mortgage rather than paying it upfront. It's convenient, but you then pay interest on it for the rest of the term, so a £999 fee costs more than £999. The page includes that. Untick the box to see the difference.</p></details>
-        <details><summary>What's the standard variable rate?</summary><p>What your lender moves you onto if you do nothing when your deal ends. It's usually far higher than any fixed deal on offer. The "if you do nothing" figure shows what that costs.</p></details>
-        <details><summary>What this page does not do</summary><p>It doesn't predict interest rates. If you believe rates will fall further than the market expects, the slider tells you how much further they'd need to fall for the shorter deal to win. It doesn't know your circumstances. And it uses typical rates for your loan-to-value unless you type in the ones you've actually been offered, which you should.</p></details>
+        <details><summary>What are you actually adding up?</summary><p>Every monthly payment for five years, any fees, and what you'd still owe at the end. Money you pay later is worth a bit less than money you pay now, so we shrink later payments accordingly. The route with the lower total costs less. The headline rate on its own tells you almost nothing.</p></details>
+        <details><summary>Where do the future rates come from?</summary><p>A 2-year deal means you'll need another deal in two years. We don't guess what that will cost. We use the price the money markets are quoting today for borrowing in two years' time, plus the usual lender margin. That's the market's own view, not ours, and it can be wrong. The slider shows how wrong it would have to be to change the answer.</p></details>
+        <details><summary>What's the "lock early" thing?</summary><p>Most lenders let you arrange your next deal up to six months before your current one ends, and switch to a cheaper one if it appears before you start. It's free, and on Bank of England data since 2009 it's been worth about a quarter of a percent on the rate. We count 0.20% of that on future deals, never on one you already hold.</p></details>
+        <details><summary>Is this advice?</summary><p>No. It's arithmetic on the numbers you typed in and today's market prices. It doesn't know your circumstances. A regulated mortgage adviser does.</p></details>
+        <details><summary>Show the working</summary><div id="ledger"></div></details>
       </div>
     </section>
   </div>
@@ -182,15 +120,15 @@
 <footer>
   <div class="wrap">
     <div><strong>Fix o'clock</strong> is an information service. It does not provide financial advice and is not a substitute for advice from a regulated mortgage adviser.</div>
-    <div>Market rates: live SONIA swap curve. Future deal rates are read off that curve plus a stated lender margin, never forecast. The lock-early option is credited at its measured average value on Bank of England data 2009–2026. Cost is every payment, fee and the balance still owed at the end, in today's money. Cost model by the Fix o'clock treasury team.</div>
+    <div>Market rates: live SONIA swap curve. Future deal rates are read off that curve plus a stated lender margin, never forecast. The lock-early option is credited at its measured average value on Bank of England data 2009–2026. Cost model by the Fix o'clock treasury team.</div>
   </div>
 </footer>
 
-<script src="curve.js?v=4"></script>
-<script src="data/market.js?v=4"></script>
-<script src="engine.js?v=4"></script>
-<script src="live.js?v=4"></script>
-<script src="position-engine.js?v=4"></script>
-<script src="position.js?v=4"></script>
+<script src="curve.js?v=5"></script>
+<script src="data/market.js?v=5"></script>
+<script src="engine.js?v=5"></script>
+<script src="live.js?v=5"></script>
+<script src="position-engine.js?v=5"></script>
+<script src="position.js?v=5"></script>
 </body>
 </html>

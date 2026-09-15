@@ -306,7 +306,7 @@ HEAD = """<!doctype html>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical}">
 <link rel="alternate" type="application/rss+xml" title="Fix o'clock – mortgage rates today" href="{site}/news/feed.xml">
-<link rel="stylesheet" href="../styles.css?v=4">
+<link rel="stylesheet" href="../styles.css?v=5">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
